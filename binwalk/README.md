@@ -1,4 +1,4 @@
-# Binutils from [ReFirmLabs](https://github.com/ReFirmLabs/binwalk)
+# Binwalk from [ReFirmLabs](https://github.com/ReFirmLabs/binwalk)
 
 ## Build
 ```
