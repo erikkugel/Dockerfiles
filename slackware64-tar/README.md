@@ -13,15 +13,15 @@
     ```
 
 1. Prepare base image dependecies:
-    1. Copy the following packages from a Slackware64 mirror into this directory:
-        * ap/slackpkg-_<version>_-noarch-1.txz
-        * n/gnupg-_<version>_-x86_64-4.txz
-        * n/wget-_<version>_-x86_64-1.txz
-        * l/libunistring-_<version>_-x86_64-3.txz
-        * n/ca-certificates-_<version>_-noarch-1.txz
-        * n/openssl-_<version>_-x86_64-1.txz
-        * d/perl-_<version>_-x86_64-1.txz
-        * ap/diffutils-_<version>_-x86_64-1.txz
+    1. Copy the following package files from a Slackware64 mirror into this directory:
+        * ap/slackpkg
+        * n/gnupg
+        * n/wget
+        * l/libunistring
+        * n/ca-certificates
+        * n/openssl
+        * d/perl
+        * ap/diffutils
 
     1. Build the image, optionally overriding the default Slackware mirror:
         ```
