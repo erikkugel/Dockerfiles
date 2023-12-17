@@ -6,22 +6,20 @@ on:
       - 'release/*'
     path:
       - 'slackware64-base/**'
+      - '!slackware64-base/README.md'
   workflow_dispatch:
 
 jobs:
   update-image:
+    name: Update Image
     runs-on: ubuntu-latest
     permissions:
-      packages: read
+      packages: write
     outputs:
       image_tag: ${{ steps.step1.outputs.test }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      #- name: Log in to registry
-      #  run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-      #- name: Set Tag
-      #  run: echo "IMAGE_TAG=$(date +%Y%m%d)" >> $GITHUB_ENV
       - name: Build
         run: |
           IMAGE_TAG="$(date +%Y%m%d)"
@@ -29,5 +27,4 @@ jobs:
           cd slackware64-base
           docker build --tag "ghcr.io/erikkugel/slackware64-base:$IMAGE_TAG" .\
       - name: Push
-        run: docker image ls
-      #  run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.build-image.outputs.image_tag }}"
+        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.build-image.outputs.image-tag }}"
