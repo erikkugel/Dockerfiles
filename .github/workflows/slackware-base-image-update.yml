@@ -21,4 +21,6 @@ jobs:
       - name: Build
         run: |
           cd slackware64-base
-          docker build --tag "slackware64-base:$(date +%Y%m%d)" .
+          docker build --tag "ghcr.io/erikkugel/slackware64-base:$(date +%Y%m%d)" .
+      - name: Push
+        run: docker push "ghcr.io/erikkugel/slackware64-base"
