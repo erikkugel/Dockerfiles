@@ -18,9 +18,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Set Tag
+        run: echo "IMAGE_TAG=$(date +%Y%m%d)" >> $GITHUB_ENV
       - name: Build
         run: |
           cd slackware64-base
-          docker build --tag "ghcr.io/erikkugel/slackware64-base:$(date +%Y%m%d)" .
+          docker build --tag "ghcr.io/erikkugel/slackware64-base:${{ env.IMAGE_TAG }}" .
       - name: Push
-        run: docker push "ghcr.io/erikkugel/slackware64-base:$(date +%Y%m%d)"
+        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ env.IMAGE_TAG }}"
