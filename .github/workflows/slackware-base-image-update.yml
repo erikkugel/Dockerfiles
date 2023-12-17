@@ -1,0 +1,17 @@
+name: slackware-base-image-update
+run-name: Update Slackware base image
+on:
+  push:
+    branches:
+      - 'release/*'
+    path:
+      - 'slackware64-base/**'
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cd slackware64-base
+          docker built . -t "slackware64-base:$(date +%Y%m%d)"
