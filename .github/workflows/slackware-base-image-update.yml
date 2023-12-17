@@ -27,4 +27,4 @@ jobs:
           cd slackware64-base
           docker build --tag "ghcr.io/erikkugel/slackware64-base:$IMAGE_TAG" .\
       - name: Push
-        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.build-image.outputs.image-tag }}"
+        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.update-image.outputs.image-tag }}"
