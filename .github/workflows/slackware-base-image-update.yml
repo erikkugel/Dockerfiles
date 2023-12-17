@@ -15,16 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    outputs:
-      image_tag: ${{ steps.step1.outputs.test }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build
+      - id: build
+        name: Build
         run: |
           IMAGE_TAG="$(date +%Y%m%d)"
           echo "image-tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
           cd slackware64-base
           docker build --tag "ghcr.io/erikkugel/slackware64-base:$IMAGE_TAG" .\
       - name: Push
-        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.update-image.outputs.image-tag }}"
+        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ steps.build.outputs.image-tag }}"
