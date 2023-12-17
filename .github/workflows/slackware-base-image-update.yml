@@ -15,4 +15,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           cd slackware64-base
-          docker built . -t "slackware64-base:$(date +%Y%m%d)"
+          docker build --tag "slackware64-base:$(date +%Y%m%d)" .
