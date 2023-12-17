@@ -6,6 +6,7 @@ on:
       - 'release/*'
     path:
       - 'slackware64-base/**'
+  workflow_dispatch:
 
 jobs:
   build-image:
