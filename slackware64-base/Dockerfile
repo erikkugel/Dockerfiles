@@ -1,4 +1,4 @@
-FROM slackware64-base
+FROM ghcr.io/erikkugel/slackware64-base
 
 COPY --chown=root:root "mirrors" "/etc/slackpkg/mirrors"
 
