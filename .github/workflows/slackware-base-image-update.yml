@@ -35,5 +35,7 @@ jobs:
       packages: write
     steps:
       - name: Push
-        run: echo ${{ needs.build-image.outputs.image-tag }}
+        run: |
+          echo ${{ needs.build-image.outputs.image-tag }}
+          docker image ls
       #  run: docker push "ghcr.io/erikkugel/slackware64-base:${{ needs.build-image.outputs.image_tag }}"
