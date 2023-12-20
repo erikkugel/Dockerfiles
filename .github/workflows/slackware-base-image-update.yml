@@ -4,16 +4,13 @@ on:
   push:
     branches:
       - 'release/*'
+      - slackware-update
     paths:
       - 'slackware64-base/**'
       - '!slackware64-base/README.md'
   workflow_dispatch:
 
 # https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: slackware64-base
-
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -28,7 +25,7 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -49,9 +46,16 @@ jobs:
       - name: Build
         run: |
           cd ./slackware64-base
-          IMAGE_TAG="$(date +%Y%m%d)"
-          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
-          docker build --tag ${IMAGE_TAG} .
+          TIMESTAMP_TAG="$(date +%Y%m%d)"
+          echo "TIMESTAMP_TAG=${TIMESTAMP_TAG}" >> $GITHUB_ENV
+          docker build --tag "slackware64-base:${TIMESTAMP_TAG}" .
+
+      - name: Tag
+        run: |
+          SLACKWARE_VERSION_TAG="$(docker run ghcr.io/${{ github.repository_owner }}/slackware64-base:${IMAGE_TAG} 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
+          echo "SLACKWARE_VERSION_TAG=${SLACKWARE_VERSION_TAG}" >> $GITHUB_ENV
+          docker tag "slackware64-base:${TIMESTAMP_TAG}" "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+          docker tag "slackware64-base:${TIMESTAMP_TAG}" "ghcr.io/${{ github.repository_owner }}/slackware64-base:${SLACKWARE_VERSION_TAG}"
 
       - name: Push
         run: docker image ls
