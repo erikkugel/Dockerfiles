@@ -9,39 +9,24 @@ on:
       - '!slackware64-base/README.md'
   workflow_dispatch:
 
-# https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
 jobs:
   update-image:
     name: Update image
     runs-on: ubuntu-latest
     permissions:
-      #contents: read
       packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      #- name: Extract metadata (tags, labels) for Docker
-      #  id: meta
-      #  uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      #  with:
-      #    images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      #- name: Build and push Docker image
-      #  uses: docker/build-push-action@v5
-      #  with:
-      #    context: .
-      #    push: true
-      #    tags: ${{ steps.meta.outputs.tags }}
-      #    labels: ${{ steps.meta.outputs.labels }}
   
       - name: Build
         run: |
@@ -52,8 +37,7 @@ jobs:
 
       - name: Tag
         run: |
-          SLACKWARE_VERSION_TAG="$(docker run docker.io/library/slackware64-base:${{ env.TIMESTAMP_TAG }} 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
-          echo "SLACKWARE_VERSION_TAG=${SLACKWARE_VERSION_TAG}" >> $GITHUB_ENV
+          SLACKWARE_VERSION_TAG="$(docker run docker.io/library/slackware64-base 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
           docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${{ env.TIMESTAMP_TAG }}"
           docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${SLACKWARE_VERSION_TAG}"
           docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
