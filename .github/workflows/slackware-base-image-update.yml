@@ -4,26 +4,55 @@ on:
   push:
     branches:
       - 'release/*'
-    path:
+    paths:
       - 'slackware64-base/**'
       - '!slackware64-base/README.md'
   workflow_dispatch:
 
+# https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: slackware64-base
+
 jobs:
-  update-image:
-    name: Update Image
+  build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
+      #contents: read
       packages: write
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - id: build
-        name: Build
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Extract metadata (tags, labels) for Docker
+      #  id: meta
+      #  uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      #  with:
+      #    images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      #- name: Build and push Docker image
+      #  uses: docker/build-push-action@v5
+      #  with:
+      #    context: .
+      #    push: true
+      #    tags: ${{ steps.meta.outputs.tags }}
+      #    labels: ${{ steps.meta.outputs.labels }}
+  
+      - name: Build
         run: |
+          cd ./slackware64-base
           IMAGE_TAG="$(date +%Y%m%d)"
-          echo "image-tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
-          cd slackware64-base
-          docker build --tag "ghcr.io/erikkugel/slackware64-base:$IMAGE_TAG" .\
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+          docker build --tag ${IMAGE_TAG} .
+
       - name: Push
-        run: docker push "ghcr.io/erikkugel/slackware64-base:${{ steps.build.outputs.image-tag }}"
+        run: docker image ls
+          
