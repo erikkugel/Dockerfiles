@@ -16,7 +16,7 @@ done < packages
 ldconfig -r base
 
 echo 'Configuring Slackpkg...'
-wget 'https://raw.githubusercontent.com/erikkugel/Dockerfiles/master/slackware64-tar/slackpkg.conf' -O base/etc/slackpkg/slackpkg.conf
+cp slackpkg.conf base/etc/slackpkg/slackpkg.conf
 echo ${SLACKWARE_MIRROR} > base/etc/slackpkg/mirrors
 wget "${SLACKWARE_MIRROR}GPG-KEY" -O base/GPG-KEY
 cat << EOF | chroot base
