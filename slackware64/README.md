@@ -36,8 +36,41 @@
 
 1. Import the archive into a running instance of Docker to get an image:
 
-        cat slackware64-base.tar | docker import - slackware64:$(date +%Y%m%d)
+        cat slackware64.tar | docker import - slackware64:$(date +%Y%m%d)
 
 1. Test the image:
 
+        docker run slackware64:$(date +%Y%m%d) slackpkg update
+
+### Build in Docker
+
+You can use a Slackware Docker base image to build base images from scratch:
+
+1. Build a new image using the [Dockerfile](Dockerfile), optionally specifying an external or local mirror:
+
+        docker build . -t slackware64-build:latest
+
+    or, for a custom external mirror:
+
+        docker build --build-arg SLACKWARE_MIRROR=https://mirrors.slackware.com/slackware/slackware64-15.0/ . -t slackware64-build:latest
+
+    or, to use a local mirror, use the `/mirror` path where a local mirror can be mounted as a volume:
+
+        docker build --build-arg SLACKWARE_MIRROR=file://mirrors/ . -t slackware64-build:latest
+
+1. Create a directory named `tar` to mount the output directory:
+
+        mkdir tar
+
+1. Run a container with a volume mounted for the resulting archive under `tar`:
+
+        docker run -v ./tar:/tar slackware64-build:latest
+
+    or, if a local mirror was specified in the build, mount it as `mirror`:
+
+        docker run -v ./tar:/tar -v ./slackware64-15.0:/mirror slackware64-build:latest
+
+1. The resulting archive will be available in the `tar` folder and can be imported with `docker import` and tested:
+
+        cat tar/slackware64.tar | docker import - slackware64:$(date +%Y%m%d)
         docker run slackware64:$(date +%Y%m%d) slackpkg update

@@ -3,10 +3,13 @@ aaa_glibc-solibs
 aaa_libraries
 acl
 bash
+bash-completion
 bin
 bzip2
 ca-certificates
 coreutils
+diffutils
+e2fsprogs
 etc
 findutils
 gawk
@@ -17,6 +20,8 @@ gzip
 hostname
 libunistring
 openssl
+openssl-solibs
+perl
 pkgtools
 procps-ng
 sed
