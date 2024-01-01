@@ -24,7 +24,7 @@ jobs:
       
       - name: Build Docker image
         id: build
-        uses: slackware64
+        uses: ./slackware64
         with:
           who-to-greet: 'Mona the Octocat'
 
