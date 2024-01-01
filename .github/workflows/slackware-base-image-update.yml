@@ -22,26 +22,35 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Build Docker image
-        id: build
-        uses: ./slackware64
+      # - name: Build Docker image
+      #   id: build
+      #   uses: ./slackware64
+      
+      - name: Create build image
+        run: docker build . -t slackware64-build:latest
+
+      - name: Create archive
+        run: |
+          mkdir --verbose tar
+          docker run --volume ./tar:/tar slackware64-build:latest
+        working-directory: ./slackware64
 
       - name: Debug
         run: ls -lR ${GITHUB_WORKSPACE}
   
-#      - name: Build
-#        run: |
-#          cd ./slackware64-base
-#          TIMESTAMP_TAG="$(date +%Y%m%d)"
-#          echo "TIMESTAMP_TAG=${TIMESTAMP_TAG}" >> $GITHUB_ENV
-#          docker build --tag slackware64-base .
-#
-#      - name: Tag
-#        run: |
-#          SLACKWARE_VERSION_TAG="$(docker run docker.io/library/slackware64-base 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
-#          docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${{ env.TIMESTAMP_TAG }}"
-#          docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${SLACKWARE_VERSION_TAG}"
-#          docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
-#
-#      - name: Push
-#        run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64-base"
+      # - name: Build
+      #   run: |
+      #     cd ./slackware64-base
+      #     TIMESTAMP_TAG="$(date +%Y%m%d)"
+      #     echo "TIMESTAMP_TAG=${TIMESTAMP_TAG}" >> $GITHUB_ENV
+      #     docker build --tag slackware64-base .
+
+      # - name: Tag
+      #   run: |
+      #     SLACKWARE_VERSION_TAG="$(docker run docker.io/library/slackware64-base 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
+      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${{ env.TIMESTAMP_TAG }}"
+      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${SLACKWARE_VERSION_TAG}"
+      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+
+      # - name: Push
+      #   run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64-base"
