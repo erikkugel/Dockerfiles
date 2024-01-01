@@ -4,6 +4,7 @@ set -e
 
 SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/slackware64-15.0/}
 
+cd $(dirname "$0")
 if [ -d build ]; then
 	rm --force --recursive build
 fi
@@ -13,8 +14,6 @@ if [ ! -d tar ]; then
 fi
 
 echo 'Preparing packages...'
-echo "PWD $(pwd)"
-echo "LS $(ls -lR)"
 slackpkg -batch=on -default_answer=y update
 slackpkg -batch=on -default_answer=y download ./packages
 while IFS= read -r package; do
