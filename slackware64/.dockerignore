@@ -1,5 +1,6 @@
+action.yml
 slackware64.tar
-slackware64-15.0
-tar
 README.md
 slackware64-build.template
+slackware64-*/
+tar/

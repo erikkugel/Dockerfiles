@@ -1,0 +1,5 @@
+name: 'Build Image'
+description: 'Build Slackware Docker image'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

@@ -16,7 +16,8 @@ echo 'Preparing packages...'
 slackpkg -batch=on -default_answer=y update
 slackpkg -batch=on -default_answer=y download ./packages
 while IFS= read -r package; do
-	find /var/cache/packages -name "${package}-*.txz" -exec installpkg --root build {} \;
+	find /var/cache/packages/slackware64 -name "${package}-*.txz" -exec installpkg --root build {} \;
+	find /var/cache/packages/patches/packages -name "${package}-*.txz" -exec ROOT=build upgradepkg {} \;
 done < packages
 ldconfig -r build
 
@@ -40,4 +41,3 @@ tar --numeric-owner \
 popd
 
 echo 'Done.'
-

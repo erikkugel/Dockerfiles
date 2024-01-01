@@ -1,12 +1,6 @@
 name: slackware-base-image-update
 run-name: Update Slackware base image
 on:
-  push:
-    branches:
-      - 'release/*'
-    paths:
-      - 'slackware64-base/**'
-      - '!slackware64-base/README.md'
   workflow_dispatch:
 
 jobs:
@@ -27,6 +21,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build Docker image
+        id: build
+        uses: slackware64
+        with:
+          who-to-greet: 'Mona the Octocat'
+
+      - name: Debug
+        run: ls -lR ${GITHUB_WORKSPACE}
   
 #      - name: Build
 #        run: |
