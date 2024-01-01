@@ -1,4 +1,4 @@
-FROM slackware64:latest
+FROM ghcr.io/erikkugel/slackware64:latest
 ARG SLACKWARE_MIRROR=https://mirrors.slackware.com/slackware/slackware64-15.0/
 COPY --chown=root:root prepare-base.sh /
 COPY --chown=root:root packages /
