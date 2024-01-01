@@ -25,17 +25,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      # - name: Build Docker image
-      #   id: build
-      #   uses: ./slackware64
+      - name: Build Docker image
+        id: build
+        uses: ./slackware64
       
-      - name: Create build image
-        run: docker build . -t slackware64-build:latest
+      # - name: Create build image
+      #   run: docker build . -t slackware64-build:latest
 
-      - name: Create archive
-        run: |
-          mkdir --verbose tar
-          docker run --volume ./tar:/tar slackware64-build:latest
+      # - name: Create archive
+      #   run: |
+      #     mkdir --verbose tar
+      #     docker run --volume ./tar:/tar slackware64-build:latest
         
       - name: Debug
         run: ls -lR ${GITHUB_WORKSPACE}
