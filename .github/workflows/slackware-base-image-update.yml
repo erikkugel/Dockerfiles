@@ -32,6 +32,11 @@ jobs:
       - name: Build Docker image
         id: build
         uses: ./slackware64
+
+      - name: Debug
+        run: |
+          echo PWD $(pwd)
+          echo LS $(ls -lR)
       
       # - name: Create build image
       #   run: docker build . -t slackware64-build:latest
