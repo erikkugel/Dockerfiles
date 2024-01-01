@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    defaults:
-        run:
-          working-directory: ./slackware64
+    # defaults:
+    #     run:
+    #       working-directory: ./slackware64
 
     steps:
       - name: Generate timestamp
