@@ -13,6 +13,8 @@ if [ ! -d tar ]; then
 fi
 
 echo 'Preparing packages...'
+echo "PWD $(pwd)"
+echo "LS $(ls -lR)"
 slackpkg -batch=on -default_answer=y update
 slackpkg -batch=on -default_answer=y download ./packages
 while IFS= read -r package; do

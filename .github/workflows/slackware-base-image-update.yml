@@ -14,6 +14,10 @@ jobs:
           working-directory: ./slackware64
 
     steps:
+      - name: Generate timestamp
+        id: timestamp
+        run: echo "timestamp=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -24,7 +28,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build Docker image
         id: build
         uses: ./slackware64
@@ -35,10 +39,11 @@ jobs:
       # - name: Create archive
       #   run: |
       #     mkdir --verbose tar
-      #     docker run --volume ./tar:/tar slackware64-build:latest
+      #     docker run --volume ./tar:/tar slackware64-build:${{ steps.timestamp.outputs.timestamp }}
         
-      - name: Debug
-        run: ls -lR ${GITHUB_WORKSPACE}
+      # - name: Import archive into an image
+      #   run: |
+      #     cat slackware64.tar | docker import - slackware64:${{ steps.timestamp.outputs.timestamp }}
   
       # - name: Build
       #   run: |
