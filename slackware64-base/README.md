@@ -4,7 +4,8 @@
 
 * Functional Slackware installation with the same architecture and version as the target base image to perform the build. While this script should be safe, further isolating it on a virtual machine or a Docker container is encouraged.
 * Configured and working instance of _Slackpkg_ and its dependencies to fetch packages for the base image.
-* Packages providing the following alongside any dependecies they might have:
+* A local copy of a Slackware64 mirror which _Slackpkg_ is configured to use, or a working network connection for downloading packages from an external mirror.
+* Packages providing the following alongside any dependecies they might have, in addition to _Slackpkg_:
     * bash
     * findutils (for `find`)
     * pkgtools (for `installpkg`, `removepkg`)
@@ -12,6 +13,12 @@
     * wget
     * coreutils (for `chroot`)
     * tar
+
+    A Slackpkg template with the full _a_ series and any additional packages needed or considered useful for the build environment is available at [slackware64-build-base.template](slackware64-build-base.template) and can be install with slackpkg:
+
+        cp slackware64-build-base.template /etc/slackpkg/templates/slackware64-build-base.template
+        slackpkg install-template slackware64-build-base.template
+
 * Ability to fetch the generated _tar_ archive and import it into a running Docker instance to create the image.
 
 ## Usage
@@ -29,7 +36,7 @@
 
 1. Import the archive into a running instance of Docker to get an image:
 
-        cat slackware64.tar | docker import - slackware64:$(date +%Y%m%d)
+        cat slackware64-base.tar | docker import - slackware64:$(date +%Y%m%d)
 
 1. Test the image:
 

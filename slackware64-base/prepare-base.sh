@@ -4,9 +4,7 @@ set -e
 
 SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/slackware64-15.0/}
 
-if [ ! -d base ]; then
-	mkdir -v base
-fi       
+rm --verbose --force --recursive build
 
 echo 'Preparing packages...'
 slackpkg -batch=on -default_answer=y download ./packages

@@ -1,4 +1,4 @@
-FROM slackware64-base
+FROM slackware64
 ENV BINWALK_VERSION="2.3.4"
 
 RUN wget "https://github.com/ReFirmLabs/binwalk/archive/refs/tags/v${BINWALK_VERSION}.tar.gz" -O - \
