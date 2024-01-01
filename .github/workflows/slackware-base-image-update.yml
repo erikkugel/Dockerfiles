@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    defaults:
+        run:
+          working-directory: ./slackware64
 
     steps:
       - name: Checkout
@@ -33,8 +36,7 @@ jobs:
         run: |
           mkdir --verbose tar
           docker run --volume ./tar:/tar slackware64-build:latest
-        working-directory: ./slackware64
-
+        
       - name: Debug
         run: ls -lR ${GITHUB_WORKSPACE}
   
