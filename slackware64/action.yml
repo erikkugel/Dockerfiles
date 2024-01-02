@@ -6,4 +6,4 @@ description: 'Build Slackware Docker image'
 runs:
     using: 'docker'
     image: 'ghcr.io/erikkugel/slackware64:latest'
-    entrypoint: ["bash", "-c", "cd ./slackware64 && prepare-base"]
+    entrypoint: cd ./slackware64 && bash ./prepare-base
