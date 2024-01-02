@@ -22,7 +22,7 @@ slackpkg -batch=on -default_answer=y download ${BASE_DIR}/packages
 while IFS= read -r package; do
 	find /var/cache/packages/slackware64 -name "${package}-*.txz" -exec installpkg --root build {} \;
 	find /var/cache/packages/patches/packages -name "${package}-*.txz" -exec ROOT=build upgradepkg {} \;
-done < packages
+done < ${BASE_DIR}/packages
 ldconfig -r build
 
 echo 'Configuring Slackpkg...'
