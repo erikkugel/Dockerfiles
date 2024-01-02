@@ -17,6 +17,7 @@ if [ ! -d tar ]; then
 fi
 
 echo 'Preparing packages...'
+echo YES | slackpkg update gpg
 slackpkg -batch=on -default_answer=y update
 slackpkg -batch=on -default_answer=y download ${BASE_DIR}/packages
 while IFS= read -r package; do
