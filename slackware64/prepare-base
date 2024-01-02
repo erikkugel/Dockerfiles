@@ -3,11 +3,7 @@
 set -e
 
 SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/slackware64-15.0/}
-
 BASE_DIR=$(dirname $0)
-echo $0 PWD $(pwd)
-echo $0 LS $(ls -lR)
-echo $0 WHOAMI $(whoami)
 
 if [ -d build ]; then
 	rm --force --recursive build

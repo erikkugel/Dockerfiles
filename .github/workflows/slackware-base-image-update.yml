@@ -9,15 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    # defaults:
-    #     run:
-    #       working-directory: ./slackware64
 
     steps:
-      - name: Generate timestamp
-        id: timestamp
-        run: echo "timestamp=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -32,39 +25,20 @@ jobs:
       - name: Build Docker image
         id: build
         uses: ./slackware64
-
-      - name: Debug
-        run: |
-          echo PWD $(pwd)
-          echo LS $(ls -lR)
-          echo WHOAMI $(whoami)
-      
-      # - name: Create build image
-      #   run: docker build . -t slackware64-build:latest
-
-      # - name: Create archive
-      #   run: |
-      #     mkdir --verbose tar
-      #     docker run --volume ./tar:/tar slackware64-build:${{ steps.timestamp.outputs.timestamp }}
         
       - name: Import archive into an image
+        id: import
         run: |
-          cat tar/slackware64.tar | docker import - slackware64:${{ steps.timestamp.outputs.timestamp }}
-          docker image ls
-  
-      # - name: Build
-      #   run: |
-      #     cd ./slackware64-base
-      #     TIMESTAMP_TAG="$(date +%Y%m%d)"
-      #     echo "TIMESTAMP_TAG=${TIMESTAMP_TAG}" >> $GITHUB_ENV
-      #     docker build --tag slackware64-base .
+          cat tar/slackware64.tar | docker import - slackware64
 
-      # - name: Tag
-      #   run: |
-      #     SLACKWARE_VERSION_TAG="$(docker run docker.io/library/slackware64-base 'grep --only-matching --perl-regexp [0-9]*\.[0-9]*$ /etc/slackware-version')"
-      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${{ env.TIMESTAMP_TAG }}"
-      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:${SLACKWARE_VERSION_TAG}"
-      #     docker tag docker.io/library/slackware64-base "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+      - name: Verify
+        run: docker run slackware64:latest slackpkg update
 
-      # - name: Push
-      #   run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64-base"
+      - name: Tag
+        run: |
+          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(date +%Y%m%d)"
+          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(docker run slackware64:latest cat /etc/slackware-version | grep -o '[0-9]*\.[0-9]*$')"
+          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+
+      - name: Push
+        run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64"
