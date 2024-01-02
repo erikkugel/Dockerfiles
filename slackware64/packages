@@ -7,6 +7,7 @@ bin
 bzip2
 ca-certificates
 coreutils
+dcron
 e2fsprogs
 etc
 findutils

@@ -37,6 +37,7 @@ jobs:
         run: |
           echo PWD $(pwd)
           echo LS $(ls -lR)
+          echo WHOAMI $(whoami)
       
       # - name: Create build image
       #   run: docker build . -t slackware64-build:latest
@@ -46,9 +47,10 @@ jobs:
       #     mkdir --verbose tar
       #     docker run --volume ./tar:/tar slackware64-build:${{ steps.timestamp.outputs.timestamp }}
         
-      # - name: Import archive into an image
-      #   run: |
-      #     cat slackware64.tar | docker import - slackware64:${{ steps.timestamp.outputs.timestamp }}
+      - name: Import archive into an image
+        run: |
+          cat tar/slackware64.tar | docker import - slackware64:${{ steps.timestamp.outputs.timestamp }}
+          docker image ls
   
       # - name: Build
       #   run: |

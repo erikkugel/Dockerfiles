@@ -7,6 +7,7 @@ SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/sla
 BASE_DIR=$(dirname $0)
 echo $0 PWD $(pwd)
 echo $0 LS $(ls -lR)
+ehoc $0 WHOAMI $(whoami)
 
 if [ -d build ]; then
 	rm --force --recursive build
