@@ -14,10 +14,10 @@
     * coreutils (for `chroot`)
     * tar
 
-    A Slackpkg template with the full _a_ series and any additional packages needed or considered useful for the build environment is available at [slackware64-build-base.template](slackware64-build-base.template) and can be install with slackpkg:
+    A Slackpkg template with the full _a_ series and any additional packages needed or considered useful for the build environment is available at [slackware64-build.template](slackware64-build.template) and can be install with slackpkg:
 
-        cp slackware64-build-base.template /etc/slackpkg/templates/slackware64-build-base.template
-        slackpkg install-template slackware64-build-base.template
+        cp slackware64-build.template /etc/slackpkg/templates/slackware64-build.template
+        slackpkg install-template slackware64-build.template
 
 * Ability to fetch the generated _tar_ archive and import it into a running Docker instance to create the image.
 
@@ -77,6 +77,6 @@ You can use a Slackware Docker base image to build base images from scratch:
 
 ### Build with GitHub Actions
 
-A GitHub Actions pipeline can be used for build with the [action.yml](action.yml) Action definition.
+A GitHub Actions Workflow can execute a build with the [action.yml](action.yml) Action definition.
 
-An example working Workflow is located at [slackware-base-image-update.yml](.github/workflows/slackware-base-image-update.yml)
+An functioning Workflow is located at [slackware-base-image-update.yml](.github/workflows/slackware-base-image-update.yml)
