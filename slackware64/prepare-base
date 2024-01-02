@@ -4,7 +4,9 @@ set -e
 
 SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/slackware64-15.0/}
 
-cd $(dirname "$0")
+echo PWD $(pwd)
+echo LS $(ls -lR)
+
 if [ -d build ]; then
 	rm --force --recursive build
 fi

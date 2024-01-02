@@ -24,15 +24,15 @@
 ## Usage
 
 1. Clone or otherwise make the repository available on the build system.
-1. Change directory to where the [prepare-base.sh](prepare-base.sh) script is located.
+1. Change directory to where the [prepare-base](prepare-base) script is located.
 1. Optionally, override the `SLACKWARE_MIRROR` environment variable to use a different mirror:
 
         export SLACKWARE_MIRROR=http://mirror.csclub.uwaterloo.ca/slackware/slackware64-15.0/
 
 1. If any additional packages are required, they may be added in the [packages](packages) file.
-1. Execute the [prepare-base.sh](prepare-base.sh) Bash script as root from the directory: 
+1. Execute the [prepare-base](prepare-base) Bash script as root from the directory: 
 
-        bash ./prepare-base.sh
+        ./prepare-base
 
 1. Import the archive into a running instance of Docker to get an image:
 

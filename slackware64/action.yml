@@ -1,5 +1,9 @@
 name: 'Build Image'
 description: 'Build Slackware Docker image'
+# runs:
+#   using: 'docker'
+#   image: 'Dockerfile'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+    using: 'docker'
+    image: 'ghcr.io/erikkugel/slackware64:latest'
+    entrypoint: ["bash", "-c", "cd ./slackware64 && prepare-base"]
