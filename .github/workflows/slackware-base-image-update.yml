@@ -36,9 +36,9 @@ jobs:
 
       - name: Tag
         run: |
-          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(date +%Y%m%d)"
-          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(docker run slackware64:latest cat /etc/slackware-version | grep -o '[0-9]*\.[0-9]*$')"
-          docker tag slackware64:${{ steps.timestamp.outputs.timestamp }} "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(date +%Y%m%d)"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(docker run slackware64:latest cat /etc/slackware-version | grep -o '[0-9]*\.[0-9]*$')"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
 
       - name: Push
         run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64"
