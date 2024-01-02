@@ -5,4 +5,4 @@ runs:
   # image: 'Dockerfile'
   # entrypoint: '/prepare-base'
   image: 'ghcr.io/erikkugel/slackware64:latest'
-  entrypoint: ls -lR
+  entrypoint: /usr/bin/ls -lR
