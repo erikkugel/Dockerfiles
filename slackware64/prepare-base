@@ -17,10 +17,10 @@ echo 'Preparing packages...'
 echo YES | slackpkg update gpg
 slackpkg -batch=on -default_answer=y update
 slackpkg -batch=on -default_answer=y download ${BASE_DIR}/packages
-while IFS= read -r package; do
-	find /var/cache/packages/slackware64 -name "${package}-*.txz" -exec installpkg --root build {} \;
-	find /var/cache/packages/patches/packages -name "${package}-*.txz" -exec ROOT=build upgradepkg {} \;
-done < ${BASE_DIR}/packages
+for package in $(cat ${BASE_DIR}/packages); do
+        find /var/cache/packages/slackware64 -name "${package}-*.txz" -exec installpkg --root build {} \;
+        find /var/cache/packages/patches/packages -name "${package}-*.txz" -exec upgradepkg {} \;
+done
 ldconfig -r build
 
 echo 'Configuring Slackpkg...'
