@@ -56,7 +56,7 @@ You can use a Slackware Docker base image to build base images from scratch:
 
     or, to use a local mirror, use the `/mirror` path where a local mirror can be mounted as a volume:
 
-        docker build --build-arg SLACKWARE_MIRROR=file://mirrors/ . -t slackware64-build:latest
+        docker build --build-arg SLACKWARE_MIRROR=file://mirror/ . -t slackware64-build:latest
 
 1. Create a directory named `tar` to mount the output directory:
 
