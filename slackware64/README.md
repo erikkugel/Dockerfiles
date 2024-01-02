@@ -74,3 +74,9 @@ You can use a Slackware Docker base image to build base images from scratch:
 
         cat tar/slackware64.tar | docker import - slackware64:$(date +%Y%m%d)
         docker run slackware64:$(date +%Y%m%d) slackpkg update
+
+### Build with GitHub Actions
+
+A GitHub Actions pipeline can be used for build with the [action.yml](action.yml) Action definition.
+
+An example working Workflow is located at [slackware-base-image-update.yml](.github/workflows/slackware-base-image-update.yml)

@@ -22,23 +22,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker image
-        id: build
+      - name: Prepare archive
         uses: ./slackware64
         
-      - name: Import archive into an image
-        id: import
-        run: |
-          cat tar/slackware64.tar | docker import - slackware64
+      - name: Import
+        run: cat tar/slackware64.tar | docker import - slackware64
 
       - name: Verify
         run: docker run slackware64:latest slackpkg update
 
       - name: Tag
         run: |
-          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(date +%Y%m%d)"
-          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:$(docker run slackware64:latest cat /etc/slackware-version | grep -o '[0-9]*\.[0-9]*$')"
-          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64-base:latest"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64:$(date +%Y%m%d)"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64:$(docker run slackware64 cat /etc/slackware-version | grep -o '[0-9]*\.[0-9]*$')"
+          docker tag slackware64 "ghcr.io/${{ github.repository_owner }}/slackware64:latest"
 
       - name: Push
         run: docker image push --all-tags "ghcr.io/${{ github.repository_owner }}/slackware64"

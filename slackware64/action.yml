@@ -1,8 +1,6 @@
-name: 'Build Image'
-description: 'Build Slackware Docker image'
+name: 'Parepare archive'
+description: 'Prepare an archive of a base Slackware filesystem'
 runs:
   using: 'docker'
-  # image: 'Dockerfile'
-  # entrypoint: '/prepare-base'
   image: 'ghcr.io/erikkugel/slackware64:latest'
   entrypoint: ./slackware64/prepare-base
