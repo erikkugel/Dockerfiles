@@ -29,7 +29,7 @@ echo ${SLACKWARE_MIRROR} > build/etc/slackpkg/mirrors
 wget "${SLACKWARE_MIRROR}GPG-KEY" -O build/GPG-KEY
 cat << EOF | chroot build
 	update-ca-certificates -v -f
-	( cat GPG-KEY | gpg --homedir /root --import ) && rm GPG-KEY
+	( cat GPG-KEY | gpg --homedir /root/.gnupg --import ) && rm GPG-KEY
 EOF
 
 echo 'Archiving filesystem...'
