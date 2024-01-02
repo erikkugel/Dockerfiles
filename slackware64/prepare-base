@@ -4,8 +4,9 @@ set -e
 
 SLACKWARE_MIRROR=${SLACKWARE_MIRROR:-https://mirrors.slackware.com/slackware/slackware64-15.0/}
 
-echo PWD $(pwd)
-echo LS $(ls -lR)
+BASE_DIR=$(dirname $0)
+echo $0 PWD $(pwd)
+echo $0 LS $(ls -lR)
 
 if [ -d build ]; then
 	rm --force --recursive build
@@ -17,7 +18,7 @@ fi
 
 echo 'Preparing packages...'
 slackpkg -batch=on -default_answer=y update
-slackpkg -batch=on -default_answer=y download ./packages
+slackpkg -batch=on -default_answer=y download ${BASE_DIR}/packages
 while IFS= read -r package; do
 	find /var/cache/packages/slackware64 -name "${package}-*.txz" -exec installpkg --root build {} \;
 	find /var/cache/packages/patches/packages -name "${package}-*.txz" -exec ROOT=build upgradepkg {} \;
@@ -25,7 +26,7 @@ done < packages
 ldconfig -r build
 
 echo 'Configuring Slackpkg...'
-cp slackpkg.conf build/etc/slackpkg/slackpkg.conf
+cp ${BASE_DIR}/slackpkg.conf build/etc/slackpkg/slackpkg.conf
 echo ${SLACKWARE_MIRROR} > build/etc/slackpkg/mirrors
 wget "${SLACKWARE_MIRROR}GPG-KEY" -O build/GPG-KEY
 cat << EOF | chroot build
