@@ -8,6 +8,7 @@ bzip2
 ca-certificates
 coreutils
 dcron
+diffutils
 e2fsprogs
 etc
 findutils
